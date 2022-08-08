@@ -8,17 +8,29 @@ parameters:
 services:
     # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        autowire: false      # Automatically injects dependencies in your services.
+        autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
+        public: false
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
-    App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+    account.query:
+        class: App\Account\Infrastructure\DoctrineDbalAccountQuery
+        arguments: ['@doctrine.dbal.connection']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    account.repository:
+        class: App\Account\Infrastructure\DoctrineOrmAccountRepository
+        arguments: [ '@doctrine.orm.entity_manager' ]
+
+    account.controller:
+        class: App\Account\Infrastructure\AccountController
+        arguments: [ '@command_bus', '@routing' ]
+        public: true
+
+    command_bus:
+        class: App\Shared\Infrastructure\SynchronousCommandBus
+        arguments: []
+        calls:
+            - ['map', ['App\Account\Application\SetupAccountCommand', '@account.setup.handler']]
+
+    account.setup.handler:
+        class: App\Account\Application\AddAccountHandler
+        arguments: ['@account.repository']
