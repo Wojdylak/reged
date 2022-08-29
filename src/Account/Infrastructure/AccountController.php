@@ -22,7 +22,8 @@ final class AccountController
 
     public function setupAction(Request $request): Response
     {
-        $id = generateId();
+//        $id = generateId();
+        $id = 1;
         $payload = $request->request->all();
         $command = new SetupAccountCommand($id, $payload['email']);
         $this->bus->handle($command);

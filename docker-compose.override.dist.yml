@@ -1,4 +1,12 @@
 services:
+  database:
+    ports:
+      - 5432
+
   web:
     ports:
       - 80
+    build:
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000

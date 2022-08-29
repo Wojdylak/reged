@@ -14,7 +14,7 @@ final class SetupAccountHandler
         $this->accounts = $accounts;
     }
 
-    public function __invoke(SetupAccountCommand $cmd)
+    public function __invoke(SetupAccountCommand $cmd): void
     {
         $account = new Account($cmd->getId(), $cmd->getEmail());
 

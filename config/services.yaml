@@ -14,15 +14,17 @@ services:
 
     account.query:
         class: App\Account\Infrastructure\DoctrineDbalAccountQuery
-        arguments: ['@doctrine.dbal.connection']
+        arguments: [ '@doctrine.dbal.default_connection' ]
 
     account.repository:
         class: App\Account\Infrastructure\DoctrineOrmAccountRepository
-        arguments: [ '@doctrine.orm.entity_manager' ]
+        arguments: [ '@doctrine.orm.default_entity_manager' ]
 
     account.controller:
         class: App\Account\Infrastructure\AccountController
-        arguments: [ '@command_bus', '@routing' ]
+        arguments:
+            - '@command_bus'
+            - '@router.default'
         public: true
 
     command_bus:

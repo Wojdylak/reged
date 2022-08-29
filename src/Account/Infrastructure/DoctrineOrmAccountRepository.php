@@ -4,6 +4,7 @@ namespace App\Account\Infrastructure;
 
 use App\Account\Domain\Account;
 use App\Account\Domain\AccountRepositoryInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 final class DoctrineOrmAccountRepository implements AccountRepositoryInterface
 {
@@ -16,6 +17,11 @@ final class DoctrineOrmAccountRepository implements AccountRepositoryInterface
 
     public function findById(int $id): Account
     {
-        return $this->em->fint(Account::class, $id);
+        return $this->em->find(Account::class, $id);
+    }
+
+    public function add(Account $account)
+    {
+
     }
 }
