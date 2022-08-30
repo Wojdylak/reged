@@ -5,7 +5,7 @@ namespace App\Account\Application;
 use App\Account\Domain\Account;
 use App\Account\Domain\AccountRepositoryInterface;
 
-final class SetupAccountHandler
+final class AddAccountHandler
 {
     private AccountRepositoryInterface $accounts;
 
@@ -14,7 +14,7 @@ final class SetupAccountHandler
         $this->accounts = $accounts;
     }
 
-    public function __invoke(SetupAccountCommand $cmd): void
+    public function __invoke(AddAccountCommand $cmd): void
     {
         $account = new Account($cmd->getId(), $cmd->getEmail());
 

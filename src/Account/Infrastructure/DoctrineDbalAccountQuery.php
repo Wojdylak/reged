@@ -5,6 +5,7 @@ namespace App\Account\Infrastructure;
 use App\Account\Application\AccountQueryInterface;
 use App\Account\Application\AccountView;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Types;
 
 final class DoctrineDbalAccountQuery implements AccountQueryInterface
 {
@@ -17,8 +18,18 @@ final class DoctrineDbalAccountQuery implements AccountQueryInterface
 
     public function findByEmail($email): AccountView
     {
-        $sql = 'SELECT id, email FROM user WHERE email = :email';
-        $data = $this->connection->exec($sql, ['email' => $email]);
+        $qb = $this->connection->createQueryBuilder();
+        $qb
+            ->select(
+            'id',
+                'email'
+            )
+            ->from('app_users')
+            ->where($qb->expr()->eq('email', ':email'))
+            ->setParameter('email', $email, Types::STRING)
+        ;
+
+        $data = $qb->fetchOne();
 
         return new AccountView($data['id'], $data['email']);
     }

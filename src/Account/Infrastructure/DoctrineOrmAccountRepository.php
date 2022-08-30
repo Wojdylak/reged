@@ -22,6 +22,13 @@ final class DoctrineOrmAccountRepository implements AccountRepositoryInterface
 
     public function add(Account $account)
     {
-
+        $this->em->beginTransaction();
+        try {
+            $this->em->persist($account);
+            $this->em->flush();
+            $this->em->commit();
+        } catch (\Exception $exception) {
+            $this->em->rollback();
+        }
     }
 }

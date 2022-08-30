@@ -1,8 +1,10 @@
-#controllers:
-#    resource: ../src/Controller/
-#    type: attribute
+account.view:
+    methods: [ GET ]
+    path: /account/{id<\d+>}
+    controller: account.controller::viewAction
 
-account.setup:
-    methods: [POST]
-    path: /accounts
-    controller: account.controller::setupAction
+account.add:
+    methods: [ POST ]
+    path: /account/add
+    controller: account.controller::addAction
+

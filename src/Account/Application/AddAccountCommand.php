@@ -4,7 +4,7 @@ namespace App\Account\Application;
 
 use App\Shared\Application\CommandInterface;
 
-final class SetupAccountCommand implements CommandInterface
+final class AddAccountCommand implements CommandInterface
 {
     private int $id;
     private string $email;

@@ -22,17 +22,15 @@ services:
 
     account.controller:
         class: App\Account\Infrastructure\AccountController
-        arguments:
-            - '@command_bus'
-            - '@router.default'
+        arguments: [ '@command_bus', '@router.default' ]
         public: true
 
     command_bus:
         class: App\Shared\Infrastructure\SynchronousCommandBus
         arguments: []
         calls:
-            - ['map', ['App\Account\Application\SetupAccountCommand', '@account.setup.handler']]
+            - ['map', ['App\Account\Application\AddAccountCommand', '@account.add.handler']]
 
-    account.setup.handler:
+    account.add.handler:
         class: App\Account\Application\AddAccountHandler
         arguments: ['@account.repository']
