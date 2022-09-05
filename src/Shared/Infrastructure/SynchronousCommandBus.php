@@ -9,9 +9,9 @@ final class SynchronousCommandBus implements CommandBusInterface
 {
     private $handlers;
 
-    public function map(string $command, callable $handler): void
+    public function __construct(iterable $handlers)
     {
-        $this->handlers[$command] = $handler;
+        $this->handlers = iterator_to_array($handlers);
     }
 
     public function handle(CommandInterface $command): void

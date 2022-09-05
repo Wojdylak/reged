@@ -12,6 +12,10 @@ services:
         autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
         public: false
 
+    _instanceof:
+        App\Shared\Application\HandlerInterface:
+            tags: ['app.handler']
+
     account.query:
         class: App\Account\Infrastructure\DoctrineDbalAccountQuery
         arguments: [ '@doctrine.dbal.default_connection' ]
@@ -27,9 +31,7 @@ services:
 
     command_bus:
         class: App\Shared\Infrastructure\SynchronousCommandBus
-        arguments: []
-        calls:
-            - ['map', ['App\Account\Application\AddAccountCommand', '@account.add.handler']]
+        arguments: [ !tagged_iterator { tag: app.handler, index_by: 'index' }]
 
     account.add.handler:
         class: App\Account\Application\AddAccountHandler
