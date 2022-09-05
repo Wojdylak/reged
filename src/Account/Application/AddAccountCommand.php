@@ -6,18 +6,11 @@ use App\Shared\Application\CommandInterface;
 
 final class AddAccountCommand implements CommandInterface
 {
-    private int $id;
     private string $email;
 
-    public function __construct(int $id, string $email)
+    public function __construct(string $email)
     {
-        $this->id = $id;
         $this->email = $email;
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     public function getEmail(): string

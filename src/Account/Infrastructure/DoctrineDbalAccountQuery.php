@@ -16,6 +16,23 @@ final class DoctrineDbalAccountQuery implements AccountQueryInterface
         $this->connection = $connection;
     }
 
+    public function findById(int $id): AccountView
+    {
+        $qb = $this->connection->createQueryBuilder();
+        $qb
+            ->select(
+                'id',
+                'email'
+            )
+            ->from('accounts')
+            ->where($qb->expr()->eq('id', ':id'))
+            ->setParameter('id', $id, Types::BIGINT)
+        ;
+
+        $data = $qb->fetchAssociative();
+        return new AccountView($data['id'], $data['email']);
+    }
+
     public function findByEmail($email): AccountView
     {
         $qb = $this->connection->createQueryBuilder();
@@ -24,12 +41,12 @@ final class DoctrineDbalAccountQuery implements AccountQueryInterface
             'id',
                 'email'
             )
-            ->from('app_users')
+            ->from('accounts')
             ->where($qb->expr()->eq('email', ':email'))
             ->setParameter('email', $email, Types::STRING)
         ;
 
-        $data = $qb->fetchOne();
+        $data = $qb->fetchAssociative();
 
         return new AccountView($data['id'], $data['email']);
     }

@@ -22,7 +22,7 @@ services:
 
     account.controller:
         class: App\Account\Infrastructure\AccountController
-        arguments: [ '@command_bus', '@router.default' ]
+        arguments: [ '@command_bus', '@account.query']
         public: true
 
     command_bus:

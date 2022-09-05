@@ -10,9 +10,8 @@ final class Account
     /** @var string  */
     private string $email;
 
-    public function __construct(int $id, string $email)
+    public function __construct(string $email)
     {
-        $this->id = $id;
         $this->email = $email;
     }
 }

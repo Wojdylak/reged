@@ -16,7 +16,7 @@ final class AddAccountHandler
 
     public function __invoke(AddAccountCommand $cmd): void
     {
-        $account = new Account($cmd->getId(), $cmd->getEmail());
+        $account = new Account($cmd->getEmail());
 
         $this->accounts->add($account);
     }
