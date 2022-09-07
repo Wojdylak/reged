@@ -2,7 +2,7 @@
 
 namespace App\Account\Domain;
 
-final class Account
+class Account
 {
     /** @var int  */
     private int $id;
