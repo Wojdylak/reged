@@ -31,4 +31,16 @@ final class DoctrineOrmAccountRepository implements AccountRepositoryInterface
             $this->em->rollback();
         }
     }
+
+    public function remove(Account $account)
+    {
+        $this->em->beginTransaction();
+        try {
+            $this->em->remove($account);
+            $this->em->flush();
+            $this->em->commit();
+        } catch (\Exception $exception) {
+            $this->em->rollback();
+        }
+    }
 }

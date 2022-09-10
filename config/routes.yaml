@@ -8,3 +8,7 @@ account.add:
     path: /account/add
     controller: account.controller::addAction
 
+account.remove:
+    methods: [ DELETE ]
+    path: /account/remove/{id<\d+>}
+    controller: account.controller::removeAction

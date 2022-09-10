@@ -4,6 +4,7 @@ namespace App\Account\Infrastructure;
 
 use App\Account\Application\AccountQueryInterface;
 use App\Account\Application\AddAccountCommand;
+use App\Account\Application\RemoveAccountCommand;
 use App\Account\Application\ViewAccountCommand;
 use App\Shared\Infrastructure\CommandBusInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,5 +35,13 @@ final class AccountController
         $this->bus->handle($command);
 
         return new Response(null, Response::HTTP_CREATED);
+    }
+
+    public function deleteAction(int $id): Response
+    {
+        $command = new RemoveAccountCommand($id);
+        $this->bus->handle($command);
+
+        return new Response(null);
     }
 }

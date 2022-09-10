@@ -36,3 +36,7 @@ services:
     account.add.handler:
         class: App\Account\Application\AddAccountHandler
         arguments: ['@account.repository']
+
+    account.remove.handler:
+        class: App\Account\Application\RemoveAccountHandler
+        arguments: [ '@account.repository', '@account.query' ]
