@@ -1,5 +1,5 @@
-FROM php:8.1.8-apache
-# test do FPM?
+FROM php:8.1.8-fpm
+
 ARG USER_ID
 ARG GROUP_ID
 
