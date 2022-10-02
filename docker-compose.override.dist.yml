@@ -3,9 +3,11 @@ services:
     ports:
       - 5432
 
-  web:
+  nginx:
     ports:
       - 80
+
+  php:
     build:
       args:
         USER_ID: 1000

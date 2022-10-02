@@ -1,22 +1,15 @@
-FROM php:8.1.8-fpm
+FROM php:8.1-fpm
 
 ARG USER_ID
 ARG GROUP_ID
 
-RUN a2enmod rewrite
-
 RUN apt-get update \
-    && apt-get install -y libzip-dev libpq-dev wget --no-install-recommends \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*;
+    && apt-get install -y libzip-dev libpq-dev --no-install-recommends;
 
 RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo pgsql pdo_pgsql zip;
 
-RUN wget https://getcomposer.org/download/2.3.10/composer.phar \
-    && mv composer.phar /usr/bin/composer && chmod +x /usr/bin/composer;
-
-COPY apache.conf /etc/apache2/sites-enabled/000-default.conf
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN if [ ${USER_ID:-0} -ne 0 ] && [ ${GROUP_ID:-0} -ne 0 ]; then \
     userdel -f www-data &&\
@@ -30,5 +23,4 @@ RUN if [ ${USER_ID:-0} -ne 0 ] && [ ${GROUP_ID:-0} -ne 0 ]; then \
 ;fi
 
 USER www-data
-
-CMD ["apache2-foreground"]
+WORKDIR /var/www
