@@ -1,3 +1,3 @@
 # Reged
 
-Project to test new architecture.
+Project to test new architecture. KAROL KRÓL
